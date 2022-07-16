@@ -1,0 +1,68 @@
+\documentclass[a4paper,12pt]{article}
+
+%\usepackage{mtxlatex}
+\usepackage[margin=2cm]{geometry}
+\usepackage{ebgaramond}
+\usepackage[autocompile]{gregoriotex}
+\usepackage{lyluatex}
+\usepackage[generate]{abc}
+%\mtxlatex
+
+\title{{\LaTeX} music typesetting demo}
+
+\author{Laércio de Sousa}
+
+\begin{document}
+\maketitle
+
+\section{Gregorio\TeX}
+
+Example of GregorioTeX music typesetting:
+\gregorioscore{an--adorna_thalamum--triplex}
+
+\section{LilyPond}
+
+Example of LilyPond music typesetting:
+%\lilypond{c d e f g a b c}
+\lilypondfile[pass-fonts,current-font-as-main]{lilypond-example}
+
+\section{ABC}
+
+Example of ABC music typesetting:
+\abcinput{abc-example}
+
+%\section{M-Tx (Musix\TeX)}
+
+%Example of MusixTeX M-Tx typesetting:
+
+\newcommand*{\addFileDependency}[1]{
+  \IfFileExists{#1}{}{\typeout{No file #1.}}
+}
+
+\newcommand{\includeMTxPages}[1]{%
+  \addFileDependency{#1.pdf}%
+  \IfFileExists{#1.pdf}{\includepdf[pages=-]{#1.pdf}}{}
+}
+
+\newcommand{\includeMTxAsGraphics}[2][]{%
+  \addFileDependency{#2.pdf}%
+  \addFileDependency{#2-crop.pdf}%
+  \IfFileExists{#2-crop.pdf}{%
+    \bigskip\includegraphics[#1]{#2-crop.pdf}\bigskip%
+  }{}%
+}
+
+\newcommand*{\includeMTx}[1]{%
+  \IfFileExists{#1.tex}
+  {\input{#1}\typeout{Yeah we have #1.tex}%
+    {\addFileDependency{\jobname.mx2}}
+  }
+  {Oops sorry \typeout{No file #1.tex.}}
+  \addFileDependency{#1.tex}%
+}
+
+%\begin{mus}
+%  \includeMTx{mozart-riff-in-c}
+%\end{mus}
+
+\end{document}

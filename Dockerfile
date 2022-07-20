@@ -31,6 +31,7 @@ RUN install-packages \
         zsh \
         git \
         git-lfs \
+        openssh-client \
     && locale-gen en_US.UTF-8
 
 ENV LANG=en_US.UTF-8
